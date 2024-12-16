@@ -33,7 +33,6 @@ def email():
                     msg["subject"] = "Application follow up"
                     date = data[1]
                     current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    #print(f"waiting to send to {data[0]} at time {date}. Current Time: {current} ")
 
                     if str(date) < current:
                         server.sendmail(sender, data[0], msg.as_string())
