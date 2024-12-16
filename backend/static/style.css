@@ -1,0 +1,53 @@
+:root{
+    background-color: rgb(111, 111, 111);
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0%;
+}
+
+.terminal{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 6px;
+    width: 70%;
+    height: 60vh;
+    overflow: scroll;
+}
+
+input{
+    width: 95%;
+    border: none;
+    caret-color: white;
+    border-radius: 6px;
+    background-color: black;
+    color: white;
+    font-family: "Courier New", Courier, monospace;
+    padding: 5px;
+}
+
+input:focus{
+    outline: black;
+}
+
+p{
+    color: white;
+    font-family: "Courier New", Courier, monospace;
+    margin: 0px;
+}
+
+.header{
+    height: 5%; 
+    background-color: rgb(49, 49, 49); 
+    border-top-left-radius: 6px; 
+    border-top-right-radius: 6px; 
+    display: flex;
+}
+
