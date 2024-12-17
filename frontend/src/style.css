@@ -1,10 +1,12 @@
 :root{
-    background-color: rgb(111, 111, 111);
+    background-color: rgb(142, 121, 121);
 }
 
 .container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
     height: auto;
     position: absolute;
@@ -16,11 +18,23 @@
     flex-direction: column;
     background-color: black;
     border: 1px solid white;
-    border-radius: 6px;
+    border-top: 1px solid black;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
     width: 70%;
     height: 60vh;
     overflow: scroll;
 }
+
+.header{
+    height: 4%; 
+    width: 70%;
+    background-color: rgb(49, 49, 49); 
+    border-top-left-radius: 6px; 
+    border-top-right-radius: 6px; 
+    display: flex;
+}
+
 
 input{
     width: 95%;
@@ -42,12 +56,3 @@ p{
     font-family: "Courier New", Courier, monospace;
     margin: 0px;
 }
-
-.header{
-    height: 5%; 
-    background-color: rgb(49, 49, 49); 
-    border-top-left-radius: 6px; 
-    border-top-right-radius: 6px; 
-    display: flex;
-}
-

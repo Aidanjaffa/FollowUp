@@ -6,9 +6,11 @@ import datetime, time
 from email.mime.text import MIMEText
 import threading
 import signal
+import requests
 
 stop_thread = False
 send_list = []
+console_messages = [" ", " "]
 
 message = "Hi My name is aidan, i made an application with you, i just wanted to follow up on my application and see how everything is going"
 
@@ -44,11 +46,12 @@ def email():
                         server.sendmail(sender, data[0], msg.as_string())
                         send_list.remove(data)
                         print(f"\nSent to {data[0]}")
+                        console_messages.append(f"\nSent to {data[0]}")
             time.sleep(1)
 email_thread = threading.Thread(target=email)
 email_thread.start()
 
-def signal_handler():
+def signal_handler(sig, frame):
     global stop_thread
     print("\nShutting down Flask application...")
     stop_thread = True
@@ -57,41 +60,55 @@ def signal_handler():
 
 signal.signal(signal.SIGINT, signal_handler)
 
-@app.route("/", methods=["GET", "POST"])
+# default route cannot handle api request so made a different route
+@app.route("/")
 def index():
+    return jsonify({
+        "userid" : 4,
+        "title" : "flask react application",
+        "completed" : False
+    })
+
+
+@app.route("/api", methods=["GET", "POST"])
+def api():
     if request.method == "POST":
-        data = request.form.get("command")
+        # getting json
+        data = request.json
         commands = data.split(" ")
-        print(commands)
-    
+        
         match commands[0]:
             case "new":
                 try:
                     sendDate = commands[1]
                     send_list.append([commands[2], sendDate])
-                    print (send_list)
+                    console_messages.append ("New email to " + commands[2] + " at time" + sendDate)
                 except IndexError:
-                    print("Err: not enough arguments")
+                    console_messages.append("not enough args")
+                    pass
             case "status":
-                for item in send_list:
-                    print(f"Pending Delivery To {item[0]}, Delivery Time: {item[1]}, Current Time: {datetime.datetime.now().strftime('%Y%m%d%H%M%S')}")
+                console_messages.append(str(send_list))
+                pass 
             case "delete":
                 try:
-                    for item in send_list:
-                        print (item)
                     deleted = int(commands[1])
                     del send_list[deleted]
+                    console_messages.append("deleted")
                 except IndexError:
-                    print("Err: data does not exist or have not specified target")
+                    console_messages.append("data does not exist or you have not specified a target\n")
+                    pass
+            case "clear":
+                console_messages.clear()
+                console_messages.append("Messages Cleared!")
 
-    return render_template("index.html")
+        return jsonify({
+            "message": console_messages
+        })
 
-
-@app.route("/api")
-def api():
     return jsonify({
         "userid" : 4,
         "title" : "flask react application",
+        "message" : console_messages,
         "completed" : False
     })
 
